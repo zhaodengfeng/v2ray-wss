@@ -8,7 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 timedatectl set-timezone Asia/Shanghai
-sspasswd=$(cat /proc/sys/kernel/random/uuid)
+sspasswd=$(openssl rand -base64 16)
 ssport=$(shuf -i 2000-65000 -n 1)
 
 getIP(){
@@ -80,7 +80,7 @@ cat >/etc/shadowsocks/config.json<<EOF
     "password":"$sspasswd",
     "timeout":600,
     "mode":"tcp_and_udp",
-    "method":"aes-128-gcm"
+    "method":"2022-blake3-aes-128-gcm"
 }
 EOF
 
@@ -104,7 +104,7 @@ EOF
 }
 
 client_SS(){
-    sslink=$(echo -n "aes-128-gcm:${sspasswd}@$(getIP):${ssport}" | base64 -w 0)
+    sslink=$(echo -n "2022-blake3-aes-128-gcm:${sspasswd}@$(getIP):${ssport}" | base64 -w 0)
 
     echo
     echo "安装已经完成"
@@ -113,7 +113,7 @@ client_SS(){
     echo "地址：$(getIP)"
     echo "端口：${ssport}"
     echo "密码：${sspasswd}"
-    echo "加密方式：aes-128-gcm"
+    echo "加密方式：2022-blake3-aes-128-gcm"
     echo "传输协议：tcp+udp"
     echo "========================================="
     echo "ss://${sslink}"
