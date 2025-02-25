@@ -5,7 +5,7 @@
 运行脚本：
 
 ```
-wget https://raw.githubusercontent.com/yeahwu/v2ray-wss/main/tcp-wss.sh && bash tcp-wss.sh
+wget https://raw.githubusercontent.com/zhaodengfeng/v2ray-wss/main/tcp-wss.sh && bash tcp-wss.sh
 ```
 
 **便宜VPS推荐：** https://hostalk.net/deals.html
@@ -36,3 +36,32 @@ Hysteria2客户端配置信息保存在：
 https://1024.day/d/1296
 
 **提醒：连不上的朋友，建议先检查一下服务器自带防火墙有没有关闭？**
+卸载ss-rust，命令如下：
+
+systemctl stop shadowsocks
+
+rm /usr/local/bin/ssserver
+
+rm /etc/systemd/system/shadowsocks.service
+
+systemctl daemon-reload
+
+卸载 v2ray-wss 命令如下：
+
+systemctl stop v2ray
+systemctl stop nginx
+
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --remove
+
+apt purge nginx -y
+
+systemctl daemon-reload
+
+卸载 Reality 命令如下：
+
+systemctl stop xray
+
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove
+卸载 Hysteria2 命令如下：
+
+bash <(curl -fsSL https://get.hy2.sh/) --remove
